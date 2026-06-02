@@ -104,6 +104,23 @@
             transform: scale(1.02);
         }
 
+        .btn-crystal {
+            background: #00a8ff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 5px;
+        }
+
+        .btn-crystal:hover {
+            transform: scale(1.02);
+            background: #0097e6;
+        }
+
         .file-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -183,6 +200,18 @@
 
         .instructions li {
             margin: 10px 0;
+        }
+
+        .crystal-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .crystal-note strong {
+            color: #856404;
         }
 
         code {
@@ -338,6 +367,7 @@
                 <li><strong>macOS/Linux</strong> <span class="status-badge badge-linux">Requires Python</span></li>
                 <li><strong>Python 3.7+</strong> (if not using pre-built EXE)</li>
                 <li><strong>Administrator/Sudo</strong> access (for SMART data)</li>
+                <li><strong>CrystalDiskInfo</strong> (optional - for finding total writes)</li>
             </ul>
         </div>
 
@@ -360,6 +390,36 @@ sudo python3 ssd_analyzer.py</code></pre>
                 <li><strong>Lifespan</strong> = Remaining TBW ÷ (Daily writes × 365 ÷ 1024)</li>
                 <li><strong>Note:</strong> 1 TB = 1024 GB</li>
             </ul>
+            
+            <h3 style="margin-top: 20px;">🔍 How to Find Your SSD's Total Writes Using CrystalDiskInfo</h3>
+            <div class="crystal-note">
+                <strong>💡 CrystalDiskInfo</strong> is a free, open-source tool that shows detailed SMART data including total host writes.
+            </div>
+            <ol>
+                <li><strong>Download CrystalDiskInfo</strong> from the official website:
+                    <br><br>
+                    <button class="btn-crystal" onclick="window.open('https://crystalmark.info/en/software/crystaldiskinfo/', '_blank')">
+                        🔗 Visit CrystalDiskInfo Official Website
+                    </button>
+                    <button class="btn-crystal" onclick="window.open('https://sourceforge.net/projects/crystaldiskinfo/files/latest/download', '_blank')" style="background: #28a745;">
+                        ⬇️ Direct Download Latest Version (v9.9.0)
+                    </button>
+                </li>
+                <li><strong>Install CrystalDiskInfo</strong> - Run the installer with default settings</li>
+                <li><strong>Launch CrystalDiskInfo</strong> as Administrator (right-click → Run as Administrator)</li>
+                <li><strong>Find "Total Host Writes"</strong> - Look for these fields in the main window:
+                    <ul>
+                        <li><strong>Total Host Writes</strong> - Shows total data written to the SSD</li>
+                        <li><strong>Total LBAs Written</strong> - Alternative format</li>
+                        <li>Value is typically shown in <strong>GB or TB</strong></li>
+                    </ul>
+                </li>
+                <li><strong>Note the value</strong> - For example: <code>Total Host Writes: 24556 GB (24.5 TB)</code></li>
+                <li><strong>Enter this value</strong> when prompted by the SSD Lifespan Analyzer</li>
+            </ol>
+            <div class="crystal-note" style="margin-top: 15px;">
+                <strong>📸 Example Screenshot Location:</strong> In CrystalDiskInfo, look under the "SMART Information" section. The "Total Host Writes" row shows your SSD's lifetime data written.
+            </div>
         </div>
 
         <div class="console-area">
@@ -381,6 +441,8 @@ sudo python3 ssd_analyzer.py</code></pre>
         ⚡ Open Source | MIT License | No data collected | Runs entirely on your computer
         <br>
         <small>🔗 GitHub: <a href="https://github.com/braysonimbambi455/ssd_lifespan_analyzer" style="color: white;" target="_blank">braysonimbambi455/ssd_lifespan_analyzer</a></small>
+        <br>
+        <small>🪟 CrystalDiskInfo: <a href="https://crystalmark.info/en/software/crystaldiskinfo/" style="color: white;" target="_blank">https://crystalmark.info/en/software/crystaldiskinfo/</a></small>
     </footer>
 </div>
 
@@ -603,6 +665,7 @@ sudo python3 ssd_analyzer.py`;
     addConsoleMessage(`💡 Click "Download All Files" to get everything at once`, 'info');
     addConsoleMessage(`💡 Then extract and run install_and_run.bat as Administrator`, 'info');
     addConsoleMessage(`💡 Or visit: https://github.com/${REPO_OWNER}/${REPO_NAME}`, 'info');
+    addConsoleMessage(`💡 Use CrystalDiskInfo to find your SSD's total writes: https://crystalmark.info/`, 'info');
 </script>
 </body>
 </html>
