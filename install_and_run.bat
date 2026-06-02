@@ -2,66 +2,102 @@
 title SSD Lifespan Analyzer - Installer
 color 0E
 
+REM Get the directory where this batch file is located
+set "SCRIPT_DIR=%~dp0"
+cd /d "%SCRIPT_DIR%"
+
 echo ========================================
-echo   SSD Lifespan Analyzer - Setup
+echo   SSD Lifespan Analyzer - Installer
 echo ========================================
 echo.
+echo Working directory: %CD%
+echo.
 
-REM Check admin rights (recommended for SMART data)
+REM Check if running as administrator
 net session >nul 2>&1
 if errorlevel 1 (
-    echo [WARNING] Not running as Administrator
-    echo For best results (full SMART access), run as Admin
+    echo [ERROR] This script must be run as Administrator!
     echo.
-)
-
-REM Check Python
-python --version >nul 2>&1
-if errorlevel 1 (
-    echo [ERROR] Python is not installed!
+    echo Please right-click this file and select "Run as Administrator"
     echo.
-    echo Download Python from: https://python.org
-    echo IMPORTANT: Check "Add Python to PATH" during install
-    echo.
-    echo After installing Python, run this script again.
     pause
     exit /b 1
 )
 
+echo [✓] Running with Administrator privileges
+echo.
+
+REM Check Python installation
+echo [1/4] Checking Python installation...
+python --version >nul 2>&1
+if errorlevel 1 (
+    echo [ERROR] Python is not installed!
+    echo.
+    echo Please install Python from: https://python.org
+    echo IMPORTANT: Check "Add Python to PATH" during installation
+    echo.
+    pause
+    exit /b 1
+)
+
+python --version
 echo [✓] Python found
+echo.
 
 REM Upgrade pip
-echo [1/3] Upgrading pip...
+echo [2/4] Upgrading pip...
 python -m pip install --upgrade pip >nul 2>&1
+echo [✓] Pip upgraded
+echo.
 
-REM Install packages
-echo [2/3] Installing required packages...
+REM Install required packages globally
+echo [3/4] Installing required packages...
 pip install requests psutil >nul 2>&1
-echo [✓] Packages installed
-
-REM Create desktop shortcut
-echo [3/3] Creating desktop shortcut...
-set SCRIPT_DIR=%~dp0
-set DESKTOP=%USERPROFILE%\Desktop
-set SHORTCUT="%DESKTOP%\SSD Analyzer.lnk"
-
-powershell -Command "$WshShell = New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut(%SHORTCUT%); $Shortcut.TargetPath = '%SCRIPT_DIR%run_ssd_analyzer.bat'; $Shortcut.WorkingDirectory = '%SCRIPT_DIR%'; $Shortcut.Save()" >nul 2>&1
-echo [✓] Desktop shortcut created
-
+echo [✓] Packages installed (requests, psutil)
 echo.
+
+REM Check if ssd_analyzer.py exists
+echo [4/4] Checking for ssd_analyzer.py...
+if not exist "%SCRIPT_DIR%ssd_analyzer.py" (
+    echo [WARNING] ssd_analyzer.py not found in current folder!
+    echo.
+    echo Please make sure ssd_analyzer.py is in the same folder.
+    echo Current folder: %SCRIPT_DIR%
+    echo.
+    dir "%SCRIPT_DIR%*.py" 2>nul
+    echo.
+    pause
+    exit /b 1
+)
+echo [✓] ssd_analyzer.py found
+echo.
+
 echo ========================================
-echo   SETUP COMPLETE!
+echo   INSTALLATION COMPLETE!
 echo ========================================
 echo.
-echo To use SSD Lifespan Analyzer:
-echo   1. Double-click "run_ssd_analyzer.bat"
-echo      OR click the desktop shortcut
+echo Python packages have been installed globally.
+echo You can now run the SSD analyzer from ANY folder.
 echo.
-echo For best results on Windows:
-echo   Right-click run_ssd_analyzer.bat
-echo   Select "Run as Administrator"
+echo Choose an option:
+echo   1. Run the SSD analyzer now (from current folder)
+echo   2. Exit - I will run it manually later
 echo.
-echo Press any key to launch the analyzer now...
-pause >nul
+set /p choice="Enter 1 or 2: "
 
-call run_ssd_analyzer.bat
+if "%choice%"=="1" (
+    echo.
+    echo Starting SSD Lifespan Analyzer...
+    echo.
+    timeout /t 2 >nul
+    python "%SCRIPT_DIR%ssd_analyzer.py"
+) else (
+    echo.
+    echo To run the analyzer later:
+    echo   1. Navigate to any folder containing ssd_analyzer.py
+    echo   2. Run: python ssd_analyzer.py
+    echo.
+    echo Or use the run_ssd_analyzer.bat file
+    echo.
+    pause
+)
