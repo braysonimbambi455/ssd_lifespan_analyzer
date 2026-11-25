@@ -88,6 +88,12 @@
             transform: scale(1.05);
         }
 
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .btn-secondary {
             background: #28a745;
             color: white;
@@ -214,6 +220,19 @@
             color: #856404;
         }
 
+        .formula-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .formula-box strong {
+            color: #2e7d32;
+        }
+
         code {
             background: #2d2d2d;
             color: #f8f8f2;
@@ -334,7 +353,7 @@
         <div class="download-section">
             <h2>📦 Download Complete Package</h2>
             <p>Get all files at once as a ZIP archive directly from GitHub</p>
-            <button class="btn-primary" onclick="downloadAllFiles()">
+            <button class="btn-primary" id="downloadAllBtn" onclick="downloadAllFiles(event)">
                 ⬇️ DOWNLOAD ALL FILES (ZIP)
             </button>
             <button class="btn-secondary" onclick="cloneWithGit()">
@@ -391,6 +410,18 @@ sudo python3 ssd_analyzer.py</code></pre>
                 <li><strong>Note:</strong> 1 TB = 1024 GB</li>
             </ul>
             
+            <h3 style="margin-top: 20px;">📐 How to Calculate Your Daily Writes</h3>
+            <div class="formula-box">
+                <strong>📊 Formula:</strong><br>
+                Daily Writes = Total Writes ÷ Number of days since purchase<br><br>
+                <strong>📝 Example:</strong><br>
+                If you bought your SSD 365 days ago and have written 10 TB (10,240 GB):<br>
+                Daily Writes = 10,240 GB ÷ 365 days = <strong>28 GB/day</strong>
+            </div>
+            <div class="crystal-note">
+                <strong>💡 Pro Tip:</strong> You can find your SSD's purchase date from your email receipt or by checking the manufacturing date using CrystalDiskInfo. Use this formula to get your actual average daily write usage for more accurate lifespan predictions!
+            </div>
+            
             <h3 style="margin-top: 20px;">🔍 How to Find Your SSD's Total Writes Using CrystalDiskInfo</h3>
             <div class="crystal-note">
                 <strong>💡 CrystalDiskInfo</strong> is a free, open-source tool that shows detailed SMART data including total host writes.
@@ -414,8 +445,9 @@ sudo python3 ssd_analyzer.py</code></pre>
                         <li>Value is typically shown in <strong>GB or TB</strong></li>
                     </ul>
                 </li>
-                <li><strong>Note the value</strong> - For example: <code>Total Host Writes: 24556 GB (24.5 TB)</code></li>
-                <li><strong>Enter this value</strong> when prompted by the SSD Lifespan Analyzer</li>
+                <li><strong>Note the total writes value</strong> - For example: <code>Total Host Writes: 24556 GB (24.5 TB)</code></li>
+                <li><strong>Calculate your daily writes</strong> using the formula above (Total Writes ÷ Days since purchase)</li>
+                <li><strong>Enter the daily writes value</strong> when prompted by the SSD Lifespan Analyzer for accurate lifespan prediction!</li>
             </ol>
             <div class="crystal-note" style="margin-top: 15px;">
                 <strong>📸 Example Screenshot Location:</strong> In CrystalDiskInfo, look under the "SMART Information" section. The "Total Host Writes" row shows your SSD's lifetime data written.
@@ -447,56 +479,57 @@ sudo python3 ssd_analyzer.py</code></pre>
 </div>
 
 <script>
-    // Repository information - UPDATED with your GitHub info
+    /* =========================================================
+       CONFIG
+       ========================================================= */
     const REPO_OWNER = "braysonimbambi455";
-    const REPO_NAME = "ssd_lifespan_analyzer";
-    const BRANCH = "main";
-    
-    // File list with metadata
+    const REPO_NAME  = "ssd_lifespan_analyzer";
+    const BRANCH     = "main";
+
     const REPO_FILES = [
-        { 
-            name: "ssd_analyzer.py", 
-            desc: "Main Python script - detects SSD, reads SMART data, calculates lifespan", 
+        {
+            name: "ssd_analyzer.py",
+            desc: "Main Python script - detects SSD, reads SMART data, calculates lifespan",
             icon: "🐍",
             size: "~8 KB",
             type: "script"
         },
-        { 
-            name: "install_and_run.bat", 
-            desc: "One-click installer (Windows) - Automatically installs dependencies and runs", 
+        {
+            name: "install_and_run.bat",
+            desc: "One-click installer (Windows) - Automatically installs dependencies and runs",
             icon: "🚀",
             size: "~1 KB",
             type: "batch"
         },
-        { 
-            name: "run_ssd_analyzer.bat", 
-            desc: "Simple launcher for Windows - Just runs the Python script", 
+        {
+            name: "run_ssd_analyzer.bat",
+            desc: "Simple launcher for Windows - Just runs the Python script",
             icon: "⚡",
             size: "~0.5 KB",
             type: "batch"
         },
-        { 
-            name: "build_exe.bat", 
-            desc: "Create standalone EXE file - No Python installation needed after build", 
+        {
+            name: "build_exe.bat",
+            desc: "Create standalone EXE file - No Python installation needed after build",
             icon: "🔧",
             size: "~1 KB",
             type: "batch"
         },
-        { 
-            name: "run_as_admin.ps1", 
-            desc: "PowerShell script - Runs with administrator rights", 
+        {
+            name: "run_as_admin.ps1",
+            desc: "PowerShell script - Runs with administrator rights",
             icon: "🖥️",
             size: "~0.5 KB",
             type: "powershell"
-        },
-        
+        }
     ];
 
-    // Populate file grid
+    /* =========================================================
+       FILE GRID
+       ========================================================= */
     function populateFileGrid() {
         const grid = document.getElementById('fileGrid');
         grid.innerHTML = '';
-        
         REPO_FILES.forEach(file => {
             const card = document.createElement('div');
             card.className = 'file-card';
@@ -504,163 +537,253 @@ sudo python3 ssd_analyzer.py</code></pre>
                 <div class="file-icon">${file.icon}</div>
                 <div class="file-name">${file.name}</div>
                 <div class="file-desc">${file.desc}</div>
-                <div class="file-desc" style="font-size: 0.7em; color: #999;">${file.size}</div>
+                <div class="file-desc" style="font-size:0.7em;color:#999;">${file.size}</div>
                 <button class="btn-download" onclick="downloadSingleFile('${file.name}')">
                     ⬇️ Download ${file.name}
-                </button>
-            `;
+                </button>`;
             grid.appendChild(card);
         });
     }
 
-    // Download single file from GitHub
+    /* =========================================================
+       HELPER: trigger a browser download from a Blob
+       ========================================================= */
+    function triggerDownload(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        // Delay revocation so the browser has time to start the download
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+    }
+
+    /* =========================================================
+       DOWNLOAD SINGLE FILE
+       ========================================================= */
     function downloadSingleFile(filename) {
         const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${filename}`;
-        
         addConsoleMessage(`📥 Downloading: ${filename}...`, 'info');
         addConsoleMessage(`   Source: ${url}`, 'info');
-        
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`File not found (HTTP ${response.status})`);
-                }
-                return response.text();
+
+        fetch(url, { cache: 'no-store' })
+            .then(r => {
+                if (!r.ok) throw new Error(`File not found (HTTP ${r.status})`);
+                return r.text();
             })
             .then(content => {
-                const blob = new Blob([content], { type: 'text/plain' });
-                const downloadUrl = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = downloadUrl;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(downloadUrl);
-                
+                triggerDownload(new Blob([content], { type: 'text/plain' }), filename);
                 addConsoleMessage(`✅ Downloaded: ${filename}`, 'success');
                 showSuccessMessage(`${filename} downloaded successfully!`);
             })
-            .catch(error => {
-                addConsoleMessage(`❌ Error downloading ${filename}: ${error.message}`, 'error');
+            .catch(err => {
+                addConsoleMessage(`❌ Error downloading ${filename}: ${err.message}`, 'error');
                 addConsoleMessage(`   Make sure the file exists in the GitHub repository`, 'warning');
             });
     }
 
-    // Download all files as ZIP
-    function downloadAllFiles() {
-        addConsoleMessage(`📦 Preparing ZIP package...`, 'info');
-        addConsoleMessage(`   Fetching ${REPO_FILES.length} files from GitHub...`, 'info');
-        
-        // Load JSZip library
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-        script.onload = function() {
+    /* =========================================================
+       JSZIP LOADER (loaded once, cached promise)
+       ========================================================= */
+    let jszipPromise = null;
+    function loadJSZip() {
+        if (window.JSZip) return Promise.resolve(window.JSZip);
+        if (jszipPromise) return jszipPromise;
+        jszipPromise = new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+            s.onload  = () => resolve(window.JSZip);
+            s.onerror = () => { jszipPromise = null; reject(new Error('Failed to load JSZip library')); };
+            document.body.appendChild(s);
+        });
+        return jszipPromise;
+    }
+
+    /* =========================================================
+       DOWNLOAD ALL FILES AS ZIP  (FIXED)
+       ========================================================= */
+    async function downloadAllFiles(event) {
+        const btn = (event && event.target && event.target.closest)
+            ? event.target.closest('button')
+            : document.getElementById('downloadAllBtn');
+
+        const originalText = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = '⏳ Preparing ZIP…';
+        }
+
+        addConsoleMessage(`📦 Preparing ZIP package (${REPO_FILES.length} files)…`, 'info');
+
+        try {
+            const JSZip = await loadJSZip();
             const zip = new JSZip();
-            let completed = 0;
-            let hasError = false;
-            
-            REPO_FILES.forEach(file => {
-                const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${file.name}`;
-                
-                fetch(url)
-                    .then(response => {
-                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                        return response.text();
-                    })
-                    .then(content => {
-                        zip.file(file.name, content);
-                        completed++;
-                        addConsoleMessage(`   ✓ Added: ${file.name}`, 'success');
-                        
-                        if (completed === REPO_FILES.length && !hasError) {
-                            // Generate and download ZIP
-                            zip.generateAsync({ type: 'blob' }).then(function(zipContent) {
-                                const downloadUrl = URL.createObjectURL(zipContent);
-                                const a = document.createElement('a');
-                                a.href = downloadUrl;
-                                a.download = `${REPO_NAME}.zip`;
-                                document.body.appendChild(a);
-                                a.click();
-                                document.body.removeChild(a);
-                                URL.revokeObjectURL(downloadUrl);
-                                
-                                addConsoleMessage(`\n✅ Package complete! Downloaded: ${REPO_NAME}.zip`, 'success');
-                                addConsoleMessage(`   Size: ${(zipContent.size / 1024).toFixed(2)} KB`, 'info');
-                                showSuccessMessage(`Downloaded ${REPO_NAME}.zip with all ${REPO_FILES.length} files!`);
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        hasError = true;
-                        addConsoleMessage(`   ✗ Failed: ${file.name} - ${error.message}`, 'error');
-                    });
+
+            // Fetch all files in parallel. Keep whatever succeeds,
+            // report whatever fails — don't let one 404 kill the whole ZIP.
+            const results = await Promise.allSettled(
+                REPO_FILES.map(async file => {
+                    const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${file.name}`;
+                    const r = await fetch(url, { cache: 'no-store' });
+                    if (!r.ok) throw new Error(`HTTP ${r.status} for ${file.name}`);
+                    const content = await r.text();
+                    zip.file(file.name, content);
+                    addConsoleMessage(`   ✓ Added: ${file.name}`, 'success');
+                    return file.name;
+                })
+            );
+
+            const okCount   = results.filter(r => r.status === 'fulfilled').length;
+            const failCount = results.length - okCount;
+
+            results.forEach(r => {
+                if (r.status === 'rejected') {
+                    addConsoleMessage(`   ✗ ${r.reason.message}`, 'error');
+                }
             });
-        };
-        document.body.appendChild(script);
+
+            if (okCount === 0) {
+                throw new Error('No files could be fetched. Check the repository name and branch.');
+            }
+
+            const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+            triggerDownload(blob, `${REPO_NAME}.zip`);
+
+            addConsoleMessage(
+                `\n✅ ZIP created: ${REPO_NAME}.zip ` +
+                `(${okCount} file${okCount !== 1 ? 's' : ''}, ${(blob.size / 1024).toFixed(1)} KB)`,
+                'success'
+            );
+            if (failCount > 0) {
+                addConsoleMessage(`⚠️ ${failCount} file(s) skipped (not found on GitHub)`, 'warning');
+            }
+
+            showSuccessMessage(
+                `Downloaded ${REPO_NAME}.zip${failCount ? ` (${failCount} skipped)` : ''}!`
+            );
+        } catch (err) {
+            addConsoleMessage(`❌ ZIP failed: ${err.message}`, 'error');
+            alert(`Download failed: ${err.message}`);
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalText || '⬇️ DOWNLOAD ALL FILES (ZIP)';
+            }
+        }
     }
 
-    function cloneWithGit() {
-        const gitUrl = `https://github.com/${REPO_OWNER}/${REPO_NAME}.git`;
-        const command = `git clone ${gitUrl}`;
-        navigator.clipboard.writeText(command);
-        addConsoleMessage(`📋 Git clone command copied to clipboard!`, 'success');
-        addConsoleMessage(`   Command: ${command}`, 'cmd');
-        addConsoleMessage(`   Then run: cd ${REPO_NAME}`, 'cmd');
-        showSuccessMessage("Git clone command copied!");
+    /* =========================================================
+       CLIPBOARD with legacy fallback (FIXED)
+       ========================================================= */
+    async function copyToClipboard(text) {
+        // 1. Modern async API — only works on HTTPS / localhost
+        if (navigator.clipboard && window.isSecureContext) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (_) {
+                /* fall through to legacy */
+            }
+        }
+        // 2. Legacy fallback — works on HTTP and file://
+        try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            const ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            return ok;
+        } catch (_) {
+            return false;
+        }
     }
 
-    function copyGitCommand() {
-        const commands = `git clone https://github.com/${REPO_OWNER}/${REPO_NAME}.git
+    /* =========================================================
+       COPY GIT CLONE COMMAND  (FIXED)
+       ========================================================= */
+    async function cloneWithGit() {
+        const command = `git clone https://github.com/${REPO_OWNER}/${REPO_NAME}.git`;
+        const ok = await copyToClipboard(command);
+
+        if (ok) {
+            addConsoleMessage(`📋 Git clone command copied to clipboard!`, 'success');
+            addConsoleMessage(`   Command: ${command}`, 'cmd');
+            addConsoleMessage(`   Then run: cd ${REPO_NAME}`, 'cmd');
+            showSuccessMessage("Git clone command copied!");
+        } else {
+            addConsoleMessage(`⚠️ Clipboard blocked by browser. Copy manually:`, 'warning');
+            addConsoleMessage(`   ${command}`, 'cmd');
+            window.prompt('Copy this command manually (Ctrl+C):', command);
+        }
+    }
+
+    /* =========================================================
+       COPY FULL SETUP COMMANDS  (FIXED)
+       ========================================================= */
+    async function copyGitCommand() {
+        const commands =
+`git clone https://github.com/${REPO_OWNER}/${REPO_NAME}.git
 cd ${REPO_NAME}
 # On Windows (Run as Administrator):
 install_and_run.bat
 # On Linux/Mac:
 sudo python3 ssd_analyzer.py`;
-        navigator.clipboard.writeText(commands);
-        addConsoleMessage(`📋 Complete setup commands copied!`, 'success');
-        showSuccessMessage("All commands copied to clipboard!");
+
+        const ok = await copyToClipboard(commands);
+
+        if (ok) {
+            addConsoleMessage(`📋 Complete setup commands copied!`, 'success');
+            showSuccessMessage("All commands copied to clipboard!");
+        } else {
+            addConsoleMessage(`⚠️ Clipboard blocked by browser. Copy manually:`, 'warning');
+            addConsoleMessage(commands, 'cmd');
+            window.prompt('Copy these commands manually (Ctrl+C):', commands);
+        }
     }
 
+    /* =========================================================
+       CONSOLE + UI HELPERS
+       ========================================================= */
     function addConsoleMessage(message, type = 'info') {
-        const consoleOutput = document.getElementById('consoleOutput');
+        const out = document.getElementById('consoleOutput');
         const line = document.createElement('div');
-        
-        let color = '';
-        switch(type) {
-            case 'error': color = '#f48771'; break;
-            case 'success': color = '#6a9955'; break;
-            case 'warning': color = '#dcdcaa'; break;
-            case 'cmd': color = '#ce9178'; break;
-            default: color = '#d4d4d4';
-        }
-        
-        line.style.color = color;
+        const colors = {
+            error:   '#f48771',
+            success: '#6a9955',
+            warning: '#dcdcaa',
+            cmd:     '#ce9178',
+            info:    '#d4d4d4'
+        };
+        line.style.color = colors[type] || colors.info;
         line.style.margin = '2px 0';
         line.style.whiteSpace = 'pre-wrap';
         line.textContent = message;
-        consoleOutput.appendChild(line);
-        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        out.appendChild(line);
+        out.scrollTop = out.scrollHeight;
     }
 
     function clearConsole() {
-        const consoleOutput = document.getElementById('consoleOutput');
-        consoleOutput.innerHTML = '<div>> Console cleared. Ready for commands.</div>';
+        document.getElementById('consoleOutput').innerHTML =
+            '<div>> Console cleared. Ready for commands.</div>';
     }
 
     function showSuccessMessage(msg) {
-        const msgDiv = document.getElementById('successMsg');
-        msgDiv.innerHTML = `✅ ${msg}`;
-        msgDiv.style.display = 'block';
-        setTimeout(() => {
-            msgDiv.style.display = 'none';
-        }, 3000);
+        const d = document.getElementById('successMsg');
+        d.innerHTML = `✅ ${msg}`;
+        d.style.display = 'block';
+        setTimeout(() => { d.style.display = 'none'; }, 3000);
     }
 
-    // Initialize
+    /* =========================================================
+       INIT
+       ========================================================= */
     populateFileGrid();
-    
-    // Add welcome message with repo info
+
     addConsoleMessage(`\n💡 REPOSITORY: ${REPO_OWNER}/${REPO_NAME}`, 'success');
     addConsoleMessage(`💡 Click "Download All Files" to get everything at once`, 'info');
     addConsoleMessage(`💡 Then extract and run install_and_run.bat as Administrator`, 'info');
