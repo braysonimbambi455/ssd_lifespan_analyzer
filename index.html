@@ -337,30 +337,30 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>💾 SSD Lifespan Analyzer</h1>
+        <h1>SSD Lifespan Analyzer</h1>
         <p>Detect your SSD model, read SMART data, calculate remaining lifespan</p>
         <a href="https://github.com/braysonimbambi455/ssd_lifespan_analyzer" class="github-badge" target="_blank">
-            📦 View on GitHub
+            View on GitHub
         </a>
         <div class="repo-stats">
-            <span class="repo-stat">⭐ Star on GitHub</span>
-            <span class="repo-stat">🐍 Python 3.7+</span>
-            <span class="repo-stat">🪟 Windows/Linux/Mac</span>
+            <span class="repo-stat">Star on GitHub</span>
+            <span class="repo-stat">Python 3.7+</span>
+            <span class="repo-stat">Windows/Linux/Mac</span>
         </div>
     </div>
     
     <div class="content">
         <div class="download-section">
-            <h2>📦 Download Complete Package</h2>
+            <h2>Download Complete Package</h2>
             <p>Get all files at once as a ZIP archive directly from GitHub</p>
             <button class="btn-primary" id="downloadAllBtn" onclick="downloadAllFiles(event)">
-                ⬇️ DOWNLOAD ALL FILES (ZIP)
+                DOWNLOAD ALL FILES (ZIP)
             </button>
             <button class="btn-secondary" onclick="cloneWithGit()">
-                📋 Copy Git Clone Command
+                Copy Git Clone Command
             </button>
             <button class="btn-secondary" onclick="window.open('https://github.com/braysonimbambi455/ssd_lifespan_analyzer/archive/refs/heads/main.zip', '_blank')">
-                🔗 GitHub Direct ZIP
+                GitHub Direct ZIP
             </button>
         </div>
 
@@ -369,7 +369,7 @@
         </div>
 
         <div class="instructions">
-            <h3>🚀 Quick Start Guide</h3>
+            <h3>Quick Start Guide</h3>
             <ol>
                 <li><strong>Download</strong> all files using the button above (or clone the repository)</li>
                 <li><strong>Extract</strong> the ZIP to a folder (e.g., <code>C:\SSD_Analyzer</code>)</li>
@@ -380,7 +380,7 @@
         </div>
 
         <div class="instructions">
-            <h3>📋 System Requirements</h3>
+            <h3>System Requirements</h3>
             <ul>
                 <li><strong>Windows 10/11</strong> <span class="status-badge badge-windows">Best Support</span></li>
                 <li><strong>macOS/Linux</strong> <span class="status-badge badge-linux">Requires Python</span></li>
@@ -391,18 +391,18 @@
         </div>
 
         <div class="instructions">
-            <h3>💻 Run Without Downloading (Git Clone)</h3>
+            <h3>Run Without Downloading (Git Clone)</h3>
             <pre><code id="gitCommand">git clone https://github.com/braysonimbambi455/ssd_lifespan_analyzer.git
 cd ssd_lifespan_analyzer
 # On Windows (Run as Administrator):
 install_and_run.bat
 # On Linux/Mac:
 sudo python3 ssd_analyzer.py</code></pre>
-            <button onclick="copyGitCommand()" style="margin-top: 10px; padding: 5px 15px;">📋 Copy Commands</button>
+            <button onclick="copyGitCommand()" style="margin-top: 10px; padding: 5px 15px;">Copy Commands</button>
         </div>
 
         <div class="instructions">
-            <h3>📊 Understanding Results</h3>
+            <h3>Understanding Results</h3>
             <ul>
                 <li><strong>TBW</strong> = Total Bytes Written (manufacturer endurance rating)</li>
                 <li><strong>Remaining TBW</strong> = Rating - Writes so far</li>
@@ -410,30 +410,30 @@ sudo python3 ssd_analyzer.py</code></pre>
                 <li><strong>Note:</strong> 1 TB = 1024 GB</li>
             </ul>
             
-            <h3 style="margin-top: 20px;">📐 How to Calculate Your Daily Writes</h3>
+            <h3 style="margin-top: 20px;">How to Calculate Your Daily Writes</h3>
             <div class="formula-box">
-                <strong>📊 Formula:</strong><br>
+                <strong>Formula:</strong><br>
                 Daily Writes = Total Writes ÷ Number of days since purchase<br><br>
-                <strong>📝 Example:</strong><br>
+                <strong>Example:</strong><br>
                 If you bought your SSD 365 days ago and have written 10 TB (10,240 GB):<br>
                 Daily Writes = 10,240 GB ÷ 365 days = <strong>28 GB/day</strong>
             </div>
             <div class="crystal-note">
-                <strong>💡 Pro Tip:</strong> You can find your SSD's purchase date from your email receipt or by checking the manufacturing date using CrystalDiskInfo. Use this formula to get your actual average daily write usage for more accurate lifespan predictions!
+                <strong>Pro Tip:</strong> You can find your SSD's purchase date from your email receipt or by checking the manufacturing date using CrystalDiskInfo. Use this formula to get your actual average daily write usage for more accurate lifespan predictions!
             </div>
             
-            <h3 style="margin-top: 20px;">🔍 How to Find Your SSD's Total Writes Using CrystalDiskInfo</h3>
+            <h3 style="margin-top: 20px;">How to Find Your SSD's Total Writes Using CrystalDiskInfo</h3>
             <div class="crystal-note">
-                <strong>💡 CrystalDiskInfo</strong> is a free, open-source tool that shows detailed SMART data including total host writes.
+                <strong>CrystalDiskInfo</strong> is a free, open-source tool that shows detailed SMART data including total host writes.
             </div>
             <ol>
                 <li><strong>Download CrystalDiskInfo</strong> from the official website:
                     <br><br>
                     <button class="btn-crystal" onclick="window.open('https://crystalmark.info/en/software/crystaldiskinfo/', '_blank')">
-                        🔗 Visit CrystalDiskInfo Official Website
+                        Visit CrystalDiskInfo Official Website
                     </button>
                     <button class="btn-crystal" onclick="window.open('https://sourceforge.net/projects/crystaldiskinfo/files/latest/download', '_blank')" style="background: #28a745;">
-                        ⬇️ Direct Download Latest Version (v9.9.0)
+                        Direct Download Latest Version (v9.9.0)
                     </button>
                 </li>
                 <li><strong>Install CrystalDiskInfo</strong> - Run the installer with default settings</li>
@@ -450,13 +450,13 @@ sudo python3 ssd_analyzer.py</code></pre>
                 <li><strong>Enter the daily writes value</strong> when prompted by the SSD Lifespan Analyzer for accurate lifespan prediction!</li>
             </ol>
             <div class="crystal-note" style="margin-top: 15px;">
-                <strong>📸 Example Screenshot Location:</strong> In CrystalDiskInfo, look under the "SMART Information" section. The "Total Host Writes" row shows your SSD's lifetime data written.
+                <strong>Example Screenshot Location:</strong> In CrystalDiskInfo, look under the "SMART Information" section. The "Total Host Writes" row shows your SSD's lifetime data written.
             </div>
         </div>
 
         <div class="console-area">
             <div class="console-header">
-                <span class="console-title">📟 Live Instructions & Downloads</span>
+                <span class="console-title">Live Instructions & Downloads</span>
                 <button class="btn-secondary" onclick="clearConsole()" style="padding: 5px 15px; font-size: 0.8em;">Clear</button>
             </div>
             <div class="console-output" id="consoleOutput">
@@ -470,11 +470,11 @@ sudo python3 ssd_analyzer.py</code></pre>
         <div id="successMsg" class="success-msg"></div>
     </div>
     <footer>
-        ⚡ Open Source | MIT License | No data collected | Runs entirely on your computer
+        Open Source | MIT License | No data collected | Runs entirely on your computer
         <br>
-        <small>🔗 GitHub: <a href="https://github.com/braysonimbambi455/ssd_lifespan_analyzer" style="color: white;" target="_blank">braysonimbambi455/ssd_lifespan_analyzer</a></small>
+        <small>GitHub: <a href="https://github.com/braysonimbambi455/ssd_lifespan_analyzer" style="color: white;" target="_blank">braysonimbambi455/ssd_lifespan_analyzer</a></small>
         <br>
-        <small>🪟 CrystalDiskInfo: <a href="https://crystalmark.info/en/software/crystaldiskinfo/" style="color: white;" target="_blank">https://crystalmark.info/en/software/crystaldiskinfo/</a></small>
+        <small>CrystalDiskInfo: <a href="https://crystalmark.info/en/software/crystaldiskinfo/" style="color: white;" target="_blank">https://crystalmark.info/en/software/crystaldiskinfo/</a></small>
     </footer>
 </div>
 
@@ -490,35 +490,35 @@ sudo python3 ssd_analyzer.py</code></pre>
         {
             name: "ssd_analyzer.py",
             desc: "Main Python script - detects SSD, reads SMART data, calculates lifespan",
-            icon: "🐍",
+            icon: "",
             size: "~8 KB",
             type: "script"
         },
         {
             name: "install_and_run.bat",
             desc: "One-click installer (Windows) - Automatically installs dependencies and runs",
-            icon: "🚀",
+            icon: "",
             size: "~1 KB",
             type: "batch"
         },
         {
             name: "run_ssd_analyzer.bat",
             desc: "Simple launcher for Windows - Just runs the Python script",
-            icon: "⚡",
+            icon: "",
             size: "~0.5 KB",
             type: "batch"
         },
         {
             name: "build_exe.bat",
             desc: "Create standalone EXE file - No Python installation needed after build",
-            icon: "🔧",
+            icon: "",
             size: "~1 KB",
             type: "batch"
         },
         {
             name: "run_as_admin.ps1",
             desc: "PowerShell script - Runs with administrator rights",
-            icon: "🖥️",
+            icon: "",
             size: "~0.5 KB",
             type: "powershell"
         }
@@ -539,7 +539,7 @@ sudo python3 ssd_analyzer.py</code></pre>
                 <div class="file-desc">${file.desc}</div>
                 <div class="file-desc" style="font-size:0.7em;color:#999;">${file.size}</div>
                 <button class="btn-download" onclick="downloadSingleFile('${file.name}')">
-                    ⬇️ Download ${file.name}
+                    Download ${file.name}
                 </button>`;
             grid.appendChild(card);
         });
@@ -565,7 +565,7 @@ sudo python3 ssd_analyzer.py</code></pre>
        ========================================================= */
     function downloadSingleFile(filename) {
         const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${filename}`;
-        addConsoleMessage(`📥 Downloading: ${filename}...`, 'info');
+        addConsoleMessage(`Downloading: ${filename}...`, 'info');
         addConsoleMessage(`   Source: ${url}`, 'info');
 
         fetch(url, { cache: 'no-store' })
@@ -575,11 +575,11 @@ sudo python3 ssd_analyzer.py</code></pre>
             })
             .then(content => {
                 triggerDownload(new Blob([content], { type: 'text/plain' }), filename);
-                addConsoleMessage(`✅ Downloaded: ${filename}`, 'success');
+                addConsoleMessage(`Downloaded: ${filename}`, 'success');
                 showSuccessMessage(`${filename} downloaded successfully!`);
             })
             .catch(err => {
-                addConsoleMessage(`❌ Error downloading ${filename}: ${err.message}`, 'error');
+                addConsoleMessage(`Error downloading ${filename}: ${err.message}`, 'error');
                 addConsoleMessage(`   Make sure the file exists in the GitHub repository`, 'warning');
             });
     }
@@ -612,10 +612,10 @@ sudo python3 ssd_analyzer.py</code></pre>
         const originalText = btn ? btn.innerHTML : '';
         if (btn) {
             btn.disabled = true;
-            btn.textContent = '⏳ Preparing ZIP…';
+            btn.textContent = 'Preparing ZIP...';
         }
 
-        addConsoleMessage(`📦 Preparing ZIP package (${REPO_FILES.length} files)…`, 'info');
+        addConsoleMessage(`Preparing ZIP package (${REPO_FILES.length} files)...`, 'info');
 
         try {
             const JSZip = await loadJSZip();
@@ -630,7 +630,7 @@ sudo python3 ssd_analyzer.py</code></pre>
                     if (!r.ok) throw new Error(`HTTP ${r.status} for ${file.name}`);
                     const content = await r.text();
                     zip.file(file.name, content);
-                    addConsoleMessage(`   ✓ Added: ${file.name}`, 'success');
+                    addConsoleMessage(`   Added: ${file.name}`, 'success');
                     return file.name;
                 })
             );
@@ -640,7 +640,7 @@ sudo python3 ssd_analyzer.py</code></pre>
 
             results.forEach(r => {
                 if (r.status === 'rejected') {
-                    addConsoleMessage(`   ✗ ${r.reason.message}`, 'error');
+                    addConsoleMessage(`   Failed: ${r.reason.message}`, 'error');
                 }
             });
 
@@ -652,24 +652,24 @@ sudo python3 ssd_analyzer.py</code></pre>
             triggerDownload(blob, `${REPO_NAME}.zip`);
 
             addConsoleMessage(
-                `\n✅ ZIP created: ${REPO_NAME}.zip ` +
+                `\nZIP created: ${REPO_NAME}.zip ` +
                 `(${okCount} file${okCount !== 1 ? 's' : ''}, ${(blob.size / 1024).toFixed(1)} KB)`,
                 'success'
             );
             if (failCount > 0) {
-                addConsoleMessage(`⚠️ ${failCount} file(s) skipped (not found on GitHub)`, 'warning');
+                addConsoleMessage(`${failCount} file(s) skipped (not found on GitHub)`, 'warning');
             }
 
             showSuccessMessage(
                 `Downloaded ${REPO_NAME}.zip${failCount ? ` (${failCount} skipped)` : ''}!`
             );
         } catch (err) {
-            addConsoleMessage(`❌ ZIP failed: ${err.message}`, 'error');
+            addConsoleMessage(`ZIP failed: ${err.message}`, 'error');
             alert(`Download failed: ${err.message}`);
         } finally {
             if (btn) {
                 btn.disabled = false;
-                btn.innerHTML = originalText || '⬇️ DOWNLOAD ALL FILES (ZIP)';
+                btn.innerHTML = originalText || 'DOWNLOAD ALL FILES (ZIP)';
             }
         }
     }
@@ -711,12 +711,12 @@ sudo python3 ssd_analyzer.py</code></pre>
         const ok = await copyToClipboard(command);
 
         if (ok) {
-            addConsoleMessage(`📋 Git clone command copied to clipboard!`, 'success');
+            addConsoleMessage(`Git clone command copied to clipboard!`, 'success');
             addConsoleMessage(`   Command: ${command}`, 'cmd');
             addConsoleMessage(`   Then run: cd ${REPO_NAME}`, 'cmd');
             showSuccessMessage("Git clone command copied!");
         } else {
-            addConsoleMessage(`⚠️ Clipboard blocked by browser. Copy manually:`, 'warning');
+            addConsoleMessage(`Clipboard blocked by browser. Copy manually:`, 'warning');
             addConsoleMessage(`   ${command}`, 'cmd');
             window.prompt('Copy this command manually (Ctrl+C):', command);
         }
@@ -737,10 +737,10 @@ sudo python3 ssd_analyzer.py`;
         const ok = await copyToClipboard(commands);
 
         if (ok) {
-            addConsoleMessage(`📋 Complete setup commands copied!`, 'success');
+            addConsoleMessage(`Complete setup commands copied!`, 'success');
             showSuccessMessage("All commands copied to clipboard!");
         } else {
-            addConsoleMessage(`⚠️ Clipboard blocked by browser. Copy manually:`, 'warning');
+            addConsoleMessage(`Clipboard blocked by browser. Copy manually:`, 'warning');
             addConsoleMessage(commands, 'cmd');
             window.prompt('Copy these commands manually (Ctrl+C):', commands);
         }
@@ -784,11 +784,11 @@ sudo python3 ssd_analyzer.py`;
        ========================================================= */
     populateFileGrid();
 
-    addConsoleMessage(`\n💡 REPOSITORY: ${REPO_OWNER}/${REPO_NAME}`, 'success');
-    addConsoleMessage(`💡 Click "Download All Files" to get everything at once`, 'info');
-    addConsoleMessage(`💡 Then extract and run install_and_run.bat as Administrator`, 'info');
-    addConsoleMessage(`💡 Or visit: https://github.com/${REPO_OWNER}/${REPO_NAME}`, 'info');
-    addConsoleMessage(`💡 Use CrystalDiskInfo to find your SSD's total writes: https://crystalmark.info/`, 'info');
+    addConsoleMessage(`\nREPOSITORY: ${REPO_OWNER}/${REPO_NAME}`, 'success');
+    addConsoleMessage(`Click "Download All Files" to get everything at once`, 'info');
+    addConsoleMessage(`Then extract and run install_and_run.bat as Administrator`, 'info');
+    addConsoleMessage(`Or visit: https://github.com/${REPO_OWNER}/${REPO_NAME}`, 'info');
+    addConsoleMessage(`Use CrystalDiskInfo to find your SSD's total writes: https://crystalmark.info/`, 'info');
 </script>
 </body>
 </html>
